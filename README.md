@@ -7,3 +7,11 @@ A repository for segmenting satellite images using [VM-UNet](https://github.com/
 
  test of best model, loss: 0.4941,miou: 0.47655385239102427, f1_or_dsc: 0.6454947127317131, accuracy: 0.7555454799107143,                 specificity: 0.7792368853324786, sensitivity: 0.7042664900787551, confusion_matrix: [[427893 121225]
  [ 75027 178671]]
+
+ <p float="left">
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/0.png" width="22%" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/10.png" width="22%" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/20.png" width="22%" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/30.png" width="22%" />
+</p>
+
