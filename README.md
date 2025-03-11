@@ -20,10 +20,10 @@ est of best model, loss: 0.4123,miou: 0.5885590061840256, f1_or_dsc: 0.740997349
  [110518 538495]]
 
  <p align="center">
-  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/0.png" width="150" />
-  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/10.png" width="150" />
-  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/20.png" width="150" />
-  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/30.png" width="150" />
-  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/40.png" width="150" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/0.png" width="250" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/10.png" width="250" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/20.png" width="250" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/30.png" width="250" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/40.png" width="250" />
   <!-- Add more images here up to image50.png -->
 </p>
