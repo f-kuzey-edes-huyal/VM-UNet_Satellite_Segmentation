@@ -531,10 +531,10 @@ class myRandomAffine:
 
 class myNormalize:
     def __init__(self, data_name, train=True):
-        if data_name == 'isic18':
+        if data_name == 'omdena':
             if train:
-                self.mean = 28.2755
-                self.std = 28.3407
+                self.mean = 30.1974
+                self.std = 30.9493
             else:
                 self.mean = 149.034
                 self.std = 32.022

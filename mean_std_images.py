@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 
 # Path to the folder containing PNG images
-image_folder = "data/isic2018/train/images"
+image_folder = "data/omdena/train/images"
 
 # Initialize list to store all pixel values
 pixel_values = []
