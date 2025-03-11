@@ -4,11 +4,11 @@ import numpy as np
 from tifffile import imread
 
 # Define your paths (update these)
-input_base = "data/omdena_last"  # Main dataset folder
-output_base = "data/omdena_last_png"  # Folder where PNG images will be saved
+input_base = "data_dir"  # Main dataset folder
+output_base = "data/omdena"  # Folder where PNG images will be saved
 
 # Subfolders for train, val, test
-sets = ["train", "val", "test"]
+sets = ["train", "val"]
 
 # Process both images and masks
 for dataset_type in sets:
