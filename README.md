@@ -4,3 +4,6 @@ A repository for segmenting satellite images using [VM-UNet](https://github.com/
  [ 89191 164507]]
 
  Computed class weights: {0: 0.6707589561896, 1: 1.9640520507891586}
+
+ test of best model, loss: 0.4941,miou: 0.47655385239102427, f1_or_dsc: 0.6454947127317131, accuracy: 0.7555454799107143,                 specificity: 0.7792368853324786, sensitivity: 0.7042664900787551, confusion_matrix: [[427893 121225]
+ [ 75027 178671]]
