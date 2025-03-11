@@ -18,3 +18,12 @@ A repository for segmenting satellite images using [VM-UNet](https://github.com/
 new data 20 epoch:
 est of best model, loss: 0.4123,miou: 0.5885590061840256, f1_or_dsc: 0.7409973490350088, accuracy: 0.7984538831208882,                 specificity: 0.7818074555922686, sensitivity: 0.8297137345476902, confusion_matrix: [[952838 265925]
  [110518 538495]]
+
+ <p align="center">
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/0.png" width="120" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/10.png" width="120" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/20.png" width="120" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/30.png" width="120" />
+  <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/40.png" width="120" />
+  <!-- Add more images here up to image50.png -->
+</p>
