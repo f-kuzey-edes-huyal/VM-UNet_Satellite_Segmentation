@@ -38,3 +38,11 @@ test of best model, loss: 0.4155,miou: 0.5871034451754057, f1_or_dsc: 0.73984269
 equal weights bcedice loss 
 test of best model, loss: 0.8601,miou: 0.5784939799474642, f1_or_dsc: 0.7329695105542534, accuracy: 0.7949282997532895,                 specificity: 0.7869150934184908, sensitivity: 0.8099760713575845, confusion_matrix: [[959063 259700]
  [123328 525685]]
+
+ FocalDiceLoss(alpha=0.25, gamma=2.0, dice_weight=0.5)
+
+  0.5611284580874188, f1_or_dsc: 0.7188754457463067, accuracy: 0.7636343972724781,                 specificity: 0.7071407648574826, sensitivity: 0.8697221781381883, confusion_matrix: [[861837 356926]
+ [ 84552 564461]]
+(vmunet) pisikucu@DESKTOP-AJT8P60:/mnt/d/VM-Unet-main$
+
+ 
