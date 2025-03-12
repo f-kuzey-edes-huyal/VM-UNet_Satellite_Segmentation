@@ -27,3 +27,7 @@ est of best model, loss: 0.4123,miou: 0.5885590061840256, f1_or_dsc: 0.740997349
   <img src="https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/images/newdata_20epochs/40.png" width="250" />
   <!-- Add more images here up to image50.png -->
 </p>
+
+new data 20 epoch( rotation angle decrease)
+test of best model, loss: 0.4240,miou: 0.5838969359361299, f1_or_dsc: 0.7372915783703181, accuracy: 0.7919188382332785,                 specificity: 0.7661497764536666, sensitivity: 0.8403098243024408,  confusion_matrix: [[933755 285008]
+ [103641 545372]]
