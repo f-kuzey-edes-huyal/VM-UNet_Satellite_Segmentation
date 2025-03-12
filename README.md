@@ -32,6 +32,6 @@ new data 20 epoch( rotation angle decrease)
 test of best model, loss: 0.4240,miou: 0.5838969359361299, f1_or_dsc: 0.7372915783703181, accuracy: 0.7919188382332785,                 specificity: 0.7661497764536666, sensitivity: 0.8403098243024408,  confusion_matrix: [[933755 285008]
  [103641 545372]]
 
-three augnentation: converge around 7th epoch: 20 epoch training
+three augnentation: converge around 7th epoch: 20 epoch [training](https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/config_setting_new.py)
 test of best model, loss: 0.4155,miou: 0.5871034451754057, f1_or_dsc: 0.7398426951439443, accuracy: 0.7934752347176535,                 specificity: 0.7659750090870826, sensitivity: 0.8451171240021387, confusion_matrix: [[933542 285221]
  [100521 548492]]
