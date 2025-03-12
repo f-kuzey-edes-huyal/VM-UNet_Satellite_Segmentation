@@ -35,3 +35,6 @@ test of best model, loss: 0.4240,miou: 0.5838969359361299, f1_or_dsc: 0.73729157
 three augnentation: converge around 7th epoch: 20 epoch [training](https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation/blob/main/config_setting_new.py)
 test of best model, loss: 0.4155,miou: 0.5871034451754057, f1_or_dsc: 0.7398426951439443, accuracy: 0.7934752347176535,                 specificity: 0.7659750090870826, sensitivity: 0.8451171240021387, confusion_matrix: [[933542 285221]
  [100521 548492]]
+equal weights bcedice loss 
+test of best model, loss: 0.8601,miou: 0.5784939799474642, f1_or_dsc: 0.7329695105542534, accuracy: 0.7949282997532895,                 specificity: 0.7869150934184908, sensitivity: 0.8099760713575845, confusion_matrix: [[959063 259700]
+ [123328 525685]]
