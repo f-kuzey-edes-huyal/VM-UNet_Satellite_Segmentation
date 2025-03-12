@@ -16,6 +16,7 @@ import SimpleITK as sitk
 from medpy import metric
 
 
+
 def set_seed(seed):
     # for hash
     os.environ['PYTHONHASHSEED'] = str(seed)
@@ -472,6 +473,20 @@ class myRandomBrightness:
             image = TF.adjust_brightness(image, factor)  # Adjust brightness
         return image, mask  # Return image and mask unchanged
 
+import torchvision.transforms.functional as TF
+import random
+
+class myAdjustBrightness:
+    def __init__(self, factor_range=(0.8, 1.2)):
+        self.factor_range = factor_range
+
+    def __call__(self, data):
+        image, mask = data
+        factor = random.uniform(*self.factor_range)  # Random factor from the range
+        image = TF.adjust_brightness(image, factor)  # Adjust brightness of the image
+        return image, mask  # Return unchanged mask
+
+
 
 class myRandomRotation:
     def __init__(self, p=0.5, degree=[0,15]):
@@ -531,13 +546,21 @@ class myRandomAffine:
 
 class myNormalize:
     def __init__(self, data_name, train=True):
+        
         if data_name == 'omdena':
             if train:
                 self.mean = 30.1974
                 self.std = 30.9493
             else:
-                self.mean = 149.034
-                self.std = 32.022
+                self.mean = 30.1974
+                self.std = 30.9493
+        if data_name == 'omdena_pca':
+            if train:
+                self.mean = 85.9958
+                self.std = 42.5926
+            else:
+                self.mean = 85.9958
+                self.std = 42.5926
         elif data_name == 'isic17':
             if train:
                 self.mean = 159.922
@@ -721,3 +744,61 @@ class TverskyLoss(nn.Module):
         tversky_loss = 1 - tversky_index
         
         return tversky_loss
+
+import torch
+import numpy as np
+import random
+
+import torch
+import numpy as np
+import random
+
+class MixUpSegmentation:
+    def __init__(self, dataset, alpha=0.4, p=0.5):
+        """
+        MixUp augmentation for segmentation tasks.
+
+        Parameters:
+        - dataset: The dataset used for selecting random samples.
+        - alpha: MixUp Beta distribution parameter.
+        - p: Probability of applying MixUp.
+        """
+        self.dataset = dataset
+        self.alpha = alpha
+        self.p = p
+
+    def __call__(self, data):
+        """Applies MixUp augmentation."""
+        if random.random() > self.p:
+            return data  # Skip MixUp with probability (1 - p)
+
+        if not isinstance(data, tuple) or len(data) != 2:
+            raise ValueError(f"Expected (image, mask) tuple, got {type(data)} with length {len(data)}")
+
+        image1, mask1 = data
+
+        # Ensure dataset has enough samples
+        if len(self.dataset) < 2:
+            return image1, mask1  # No MixUp if dataset is too small
+
+        # Select a random sample using dataset's __getitem__
+        index = random.randint(0, len(self.dataset) - 1)
+        sample = self.dataset.__getitem__(index)  # Ensure __getitem__ is used
+
+        if not isinstance(sample, tuple) or len(sample) != 2:
+            raise ValueError(f"Dataset sample should be (image, mask), but got {type(sample)} with length {len(sample)}")
+
+        image2, mask2 = sample
+
+        # Ensure both images and masks have the same shape
+        if image1.shape != image2.shape or mask1.shape != mask2.shape:
+            raise ValueError("Image or mask shapes do not match for MixUp!")
+
+        # Compute the MixUp coefficient
+        lam = np.random.beta(self.alpha, self.alpha)
+
+        # Apply MixUp
+        mixed_image = lam * image1 + (1 - lam) * image2
+        mixed_mask = lam * mask1 + (1 - lam) * mask2
+
+        return mixed_image, mixed_mask

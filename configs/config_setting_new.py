@@ -72,14 +72,14 @@ class setting_config:
         myToTensor(),
         myRandomHorizontalFlip(p=0.5),
         myRandomVerticalFlip(p=0.5),
-        myRandomRotation(p=0.5, degree=[0, 360]),
-        myResize(input_size_h, input_size_w)
+        myRandomRotation(p=0.5, degree=[0, 10]),
+        #myResize(input_size_h, input_size_w)
     ])
 
     train_transformer3 = transforms.Compose([
         myNormalize(datasets, train=True),  # Normalization first
         myToTensor(),  # Convert to tensor after augmentations
-        myRandomBrightness(factor_range=(0.8, 1.2), p=0.5),  # Brightness adjustment
+        MixUpSegmentation(datasets,alpha=0.4),  # Adding MixUp augmentation
        
     # myRandomHorizontalFlip(p=0.5),
     # myRandomVerticalFlip(p=0.5),

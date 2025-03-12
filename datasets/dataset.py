@@ -11,7 +11,7 @@ from scipy.ndimage.interpolation import zoom
 from torch.utils.data import Dataset
 from scipy import ndimage
 from PIL import Image
-
+from utils import *
 
 class NPY_datasets(Dataset):
     def __init__(self, path_Data, config, train=True):
@@ -77,37 +77,74 @@ class NPY_datasets2(Dataset):
     def __len__(self):
         return len(self.data)
     
+import os
+import random
+import numpy as np
+from PIL import Image
+from torch.utils.data import Dataset
+
+import os
+import numpy as np
+import random
+from PIL import Image
+from torch.utils.data import Dataset
+
 class NPY_datasets3(Dataset):
-    def __init__(self, path_Data, config, train=True):
-        super(NPY_datasets3, self)
-        if train:
-            images_list = sorted(os.listdir(path_Data+'train/images/'))
-            masks_list = sorted(os.listdir(path_Data+'train/masks/'))
-            self.data = []
-            for i in range(len(images_list)):
-                img_path = path_Data+'train/images/' + images_list[i]
-                mask_path = path_Data+'train/masks/' + masks_list[i]
-                self.data.append([img_path, mask_path])
-            self.transformer = config.train_transformer3
-        else:
-            images_list = sorted(os.listdir(path_Data+'val/images/'))
-            masks_list = sorted(os.listdir(path_Data+'val/masks/'))
-            self.data = []
-            for i in range(len(images_list)):
-                img_path = path_Data+'val/images/' + images_list[i]
-                mask_path = path_Data+'val/masks/' + masks_list[i]
-                self.data.append([img_path, mask_path])
-            self.transformer = config.test_transformer
-        
+    def __init__(self, path_Data, config, train=True, apply_mixup=True):
+        """
+        Dataset for segmentation tasks with optional MixUp augmentation.
+
+        Parameters:
+        - path_Data: Path to the dataset.
+        - config: Configuration containing transformations.
+        - train: If True, uses training set; otherwise, uses validation set.
+        - apply_mixup: Whether to apply MixUp augmentation.
+        """
+        super(NPY_datasets3, self).__init__()
+        self.train = train
+        self.apply_mixup = apply_mixup
+
+        dataset_type = 'train' if train else 'val'
+        images_list = sorted(os.listdir(os.path.join(path_Data, f'{dataset_type}/images/')))
+        masks_list = sorted(os.listdir(os.path.join(path_Data, f'{dataset_type}/masks/')))
+
+        self.transformer = config.train_transformer if train else config.test_transformer
+
+        # Load image-mask pairs
+        self.data = [
+            (
+                os.path.join(path_Data, f'{dataset_type}/images/', img),
+                os.path.join(path_Data, f'{dataset_type}/masks/', msk)
+            )
+            for img, msk in zip(images_list, masks_list)
+        ]
+
+        # Initialize MixUp augmentation if enabled and dataset is for training
+        self.mixup = MixUpSegmentation(self) if self.apply_mixup and train else None
+
     def __getitem__(self, indx):
         img_path, msk_path = self.data[indx]
-        img = np.array(Image.open(img_path).convert('RGB'))
-        msk = np.expand_dims(np.array(Image.open(msk_path).convert('L')), axis=2) / 255
-        img, msk = self.transformer((img, msk))
+        
+        # Load image and mask as numpy arrays
+        img = np.array(Image.open(img_path).convert('RGB'))  # Convert image to RGB
+        msk = np.expand_dims(np.array(Image.open(msk_path).convert('L')), axis=2) / 255  # Convert mask to single channel
+
+        # Ensure transformer receives the data as tuples of (image, mask) arrays
+        sample = (img, msk)
+        
+        # Apply transformations to the image and mask
+        img, msk = self.transformer(sample)  # Apply transformations
+
+        # Apply MixUp augmentation with probability p if enabled
+        if self.mixup:
+            img, msk = self.mixup((img, msk))
+
         return img, msk
 
     def __len__(self):
         return len(self.data)
+
+
 
 
 class NPY_datasets4(Dataset):
