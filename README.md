@@ -43,6 +43,6 @@ test of best model, loss: 0.8601,miou: 0.5784939799474642, f1_or_dsc: 0.73296951
 
   0.5611284580874188, f1_or_dsc: 0.7188754457463067, accuracy: 0.7636343972724781,                 specificity: 0.7071407648574826, sensitivity: 0.8697221781381883, confusion_matrix: [[861837 356926]
  [ 84552 564461]]
-(vmunet) pisikucu@DESKTOP-AJT8P60:/mnt/d/VM-Unet-main$
+
 
  
