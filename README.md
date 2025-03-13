@@ -48,4 +48,5 @@ test of best model, loss: 0.8601,miou: 0.5784939799474642, f1_or_dsc: 0.73296951
 test of best model, loss: 0.6537,miou: 0.5434632827446988, f1_or_dsc: 0.7042127776156395, accuracy: 0.7520221910978618,                 specificity: 0.7000975579337411, sensitivity: 0.8495299785982715, confusion_matrix: [[853253 365510]
  [ 97657 551356]]
 
- 
+ test of best model, loss: 0.4004,miou: 0.5757549165556687, f1_or_dsc: 0.7307670888492872, accuracy: 0.7825767115542763,                 specificity: 0.7471108000489021, sensitivity: 0.8491771351267232, confusion_matrix: [[910551 308212]
+ [ 97886 551127]]
