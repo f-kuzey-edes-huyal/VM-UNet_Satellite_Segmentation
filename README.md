@@ -50,3 +50,15 @@ test of best model, loss: 0.6537,miou: 0.5434632827446988, f1_or_dsc: 0.70421277
 
  test of best model, loss: 0.4004,miou: 0.5757549165556687, f1_or_dsc: 0.7307670888492872, accuracy: 0.7825767115542763,                 specificity: 0.7471108000489021, sensitivity: 0.8491771351267232, confusion_matrix: [[910551 308212]
  [ 97886 551127]]
+
+```
+conda init
+
+exec $SHELL
+
+conda activate vmunet
+
+cd /mnt/d//VM-Unet-main
+
+cd /mnt/c/Users/Kuzey/VM-Unet
+```
