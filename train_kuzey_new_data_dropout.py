@@ -61,7 +61,7 @@ def main(config):
     from torch.utils.data import ConcatDataset, DataLoader
 
     # Concatenate the datasets
-    train_dataset = ConcatDataset([train_dataset1, train_dataset2, train_dataset3])
+    train_dataset = ConcatDataset([train_dataset1, train_dataset2, train_dataset3, train_dataset4 ])
     train_loader = DataLoader(train_dataset,
                                 batch_size=config.batch_size, 
                                 shuffle=True,

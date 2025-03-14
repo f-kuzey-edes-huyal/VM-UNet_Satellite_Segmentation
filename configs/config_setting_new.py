@@ -49,18 +49,19 @@ class setting_config:
     amp = False
     gpu_id = '0'
     batch_size = 32
-    epochs = 20
+    epochs = 200
 
     work_dir = 'results/' + network + '_' + datasets + '_' + datetime.now().strftime('%A_%d_%B_%Y_%Hh_%Mm_%Ss') + '/'
 
     print_interval = 20
-    val_interval = 30
+    val_interval = 10
     save_interval = 10
     threshold = 0.5
 
     train_transformer = transforms.Compose([
         myNormalize(datasets, train=True),
         myToTensor(),
+        #MedianBlur(blur_limit=3, p=0.1)
         #myRandomHorizontalFlip(p=0.5),
         #myRandomVerticalFlip(p=0.5),
         #myRandomRotation(p=0.5, degree=[0, 360]),
@@ -73,13 +74,17 @@ class setting_config:
         myRandomHorizontalFlip(p=0.5),
         myRandomVerticalFlip(p=0.5),
         myRandomRotation(p=0.5, degree=[0, 10]),
+        #myMedianBlur(blur_limit=3, p=0.1)
         #myResize(input_size_h, input_size_w)
     ])
 
     train_transformer3 = transforms.Compose([
         myNormalize(datasets, train=True),  # Normalization first
         myToTensor(),  # Convert to tensor after augmentations
+       
         MixUpSegmentation(datasets,alpha=0.4),  # Adding MixUp augmentation
+        #myMedianBlur(blur_limit=3, p=0.1),
+        
        
     # myRandomHorizontalFlip(p=0.5),
     # myRandomVerticalFlip(p=0.5),
@@ -89,8 +94,10 @@ class setting_config:
     
     train_transformer4 = transforms.Compose([
         myNormalize(datasets, train=True),  # Normalize last,
+        RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=1),
         myToTensor(),  # Convert to tensor first
-        myRandomAffine(p=0.5, degrees=10, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=5),  # Apply affine transformation
+       
+        #myMedianBlur(blur_limit=3, p=0.1)
         
     
     ])
