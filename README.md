@@ -51,6 +51,11 @@ test of best model, loss: 0.6537,miou: 0.5434632827446988, f1_or_dsc: 0.70421277
  test of best model, loss: 0.4004,miou: 0.5757549165556687, f1_or_dsc: 0.7307670888492872, accuracy: 0.7825767115542763,                 specificity: 0.7471108000489021, sensitivity: 0.8491771351267232, confusion_matrix: [[910551 308212]
  [ 97886 551127]]
 
+ 100 epch 
+
+ test of best model, loss: 0.4107,miou: 0.5808558283188433, f1_or_dsc: 0.7348624939904265, accuracy: 0.7962667900219298,                 specificity: 0.7876075988522789, sensitivity: 0.8125276381212703, confusion_matrix: [[959907 258856]
+ [121672 527341]]
+
 ```
 conda init
 
