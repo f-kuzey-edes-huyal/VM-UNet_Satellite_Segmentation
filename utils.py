@@ -802,3 +802,213 @@ class MixUpSegmentation:
         mixed_mask = lam * mask1 + (1 - lam) * mask2
 
         return mixed_image, mixed_mask
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class TverskyBCELoss(nn.Module):
+    def __init__(self, alpha=0.7, beta=0.3, smooth=1e-6, bce_weight=0.5):
+        """
+        alpha: Controls the penalty for false negatives (higher -> prioritize recall).
+        beta: Controls the penalty for false positives (higher -> prioritize precision).
+        smooth: Avoids division by zero.
+        bce_weight: How much weight to give BCE loss in total loss.
+        """
+        super(TverskyBCELoss, self).__init__()
+        self.alpha = alpha
+        self.beta = beta
+        self.smooth = smooth
+        self.bce_weight = bce_weight
+        self.bce = nn.BCEWithLogitsLoss()
+
+    def forward(self, y_pred, y_true):
+        y_pred = torch.sigmoid(y_pred)  # Convert logits to probabilities
+        y_true = y_true.float()
+
+        # Compute True Positives (TP), False Positives (FP), and False Negatives (FN)
+        TP = torch.sum(y_true * y_pred, dim=(1,2,3))
+        FP = torch.sum((1 - y_true) * y_pred, dim=(1,2,3))
+        FN = torch.sum(y_true * (1 - y_pred), dim=(1,2,3))
+
+        # Tversky Index
+        tversky = (TP + self.smooth) / (TP + self.alpha * FN + self.beta * FP + self.smooth)
+        tversky_loss = 1 - tversky.mean()
+
+        # BCE Loss
+        bce_loss = self.bce(y_pred, y_true)
+
+        # Weighted Combination
+        return self.bce_weight * bce_loss + (1 - self.bce_weight) * tversky_loss
+
+class FocalDiceLoss(nn.Module):
+    def __init__(self, alpha=0.25, gamma=2.0, smooth=1e-6, dice_weight=0.5):
+        """
+        alpha: Balances foreground/background classes in Focal Loss.
+        gamma: Controls how much to focus on hard examples in Focal Loss.
+        smooth: Prevents division by zero.
+        dice_weight: How much weight to give Dice Loss in total loss.
+        """
+        super(FocalDiceLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.smooth = smooth
+        self.dice_weight = dice_weight
+
+    def forward(self, y_pred, y_true):
+        y_pred = torch.sigmoid(y_pred)  # Convert logits to probabilities
+        y_true = y_true.float()
+
+        # Compute Dice Loss
+        intersection = torch.sum(y_true * y_pred, dim=(1,2,3))
+        dice_coeff = (2. * intersection + self.smooth) / (torch.sum(y_true, dim=(1,2,3)) + torch.sum(y_pred, dim=(1,2,3)) + self.smooth)
+        dice_loss = 1 - dice_coeff.mean()
+
+        # Compute Focal Loss
+        bce_loss = F.binary_cross_entropy(y_pred, y_true, reduction='none')
+        focal_loss = self.alpha * (1 - torch.exp(-bce_loss)) ** self.gamma * bce_loss
+        focal_loss = focal_loss.mean()
+
+        # Weighted Combination
+        return self.dice_weight * dice_loss + (1 - self.dice_weight) * focal_loss
+
+
+import torch
+import numpy as np
+import cv2
+
+import torch
+import numpy as np
+import cv2
+
+import torch
+import numpy as np
+import cv2
+
+import torch
+import numpy as np
+import cv2
+import random
+import torchvision.transforms.functional as TF
+
+class RandomBrightnessContrast:
+    def __init__(self, brightness_limit=0.3, contrast_limit=0.3, p=0.5):
+        self.brightness_limit = brightness_limit
+        self.contrast_limit = contrast_limit
+        self.p = p
+
+    def __call__(self, data):
+        image, mask = data
+        if random.random() < self.p:
+            brightness_factor = 1.0 + np.random.uniform(-self.brightness_limit, self.brightness_limit)
+            contrast_factor = 1.0 + np.random.uniform(-self.contrast_limit, self.contrast_limit)
+            
+            image = image.astype(np.float32)
+            mean = np.mean(image, axis=(0, 1), keepdims=True)
+            image = contrast_factor * (image - mean) + mean + brightness_factor * 255
+            image = np.clip(image, 0, 255).astype(np.uint8)
+        
+        return image, mask
+import numpy as np
+import cv2
+import random
+
+import numpy as np
+import cv2
+import random
+from PIL import Image
+import random
+import numpy as np
+import cv2
+import torchvision.transforms.functional as TF
+
+from PIL import Image
+import random
+import numpy as np
+import cv2
+import torch
+import torchvision.transforms.functional as TF
+
+from PIL import Image
+import random
+import numpy as np
+import cv2
+import torch
+import torchvision.transforms.functional as TF
+from PIL import Image
+import random
+import numpy as np
+import cv2
+import torch
+import torchvision.transforms.functional as TF
+
+from PIL import Image
+import random
+import numpy as np
+import cv2
+import torch
+
+class myMedianBlur:
+    def __init__(self, blur_limit=3, p=0.1):
+        """
+        blur_limit: Maximum kernel size for median blur (must be an odd number).
+        p: Probability of applying the augmentation.
+        """
+        self.blur_limit = blur_limit
+        self.p = p
+
+    def __call__(self, data):
+        image, mask = data
+
+        if random.random() < self.p:
+            blur_ksize = random.choice(range(1, self.blur_limit + 1, 2))  # Ensure odd kernel size
+            
+            # Ensure image is a NumPy array if it's a tensor
+            if isinstance(image, torch.Tensor):
+                image = image.cpu().numpy()  # Convert tensor to NumPy array
+            
+            # Ensure image is a NumPy array and has the correct data type
+            if not isinstance(image, np.ndarray):
+                image = np.array(image)
+            
+            # Convert image to uint8 if it is not
+            if image.dtype != np.uint8:
+                image = (image * 255).astype(np.uint8)  # Scale and convert if needed
+            
+            # Apply median blur
+            image = cv2.medianBlur(image, blur_ksize)
+
+        # Convert image back to PIL if needed
+        image = Image.fromarray(image)  # Convert NumPy array back to PIL Image
+
+        # Handle mask similarly
+        if isinstance(mask, torch.Tensor):
+            mask = mask.cpu().numpy()  # Convert mask to NumPy array if it's a tensor
+
+        mask = Image.fromarray(mask)  # Convert mask to PIL Image (if it's a NumPy array)
+
+        return image, mask  # Return as PIL images
+
+
+import random
+import numpy as np
+import torch
+
+import random
+import numpy as np
+import torch
+from torch.utils.data import Dataset
+from PIL import Image
+
+import torch
+import random
+import numpy as np
+
+import os
+import random
+import numpy as np
+import torch
+from torch.utils.data import Dataset
+import torchvision.transforms as T
+from PIL import Image
+

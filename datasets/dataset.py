@@ -180,6 +180,41 @@ class NPY_datasets4(Dataset):
         return len(self.data)
     
     
+    
+class NPY_datasets5(Dataset):
+    def __init__(self, path_Data, config, train=True):
+        super(NPY_datasets5, self)
+        if train:
+            images_list = sorted(os.listdir(path_Data+'train/images/'))
+            masks_list = sorted(os.listdir(path_Data+'train/masks/'))
+            self.data = []
+            for i in range(len(images_list)):
+                img_path = path_Data+'train/images/' + images_list[i]
+                mask_path = path_Data+'train/masks/' + masks_list[i]
+                self.data.append([img_path, mask_path])
+            self.transformer = config.train_transformer5
+        else:
+            images_list = sorted(os.listdir(path_Data+'val/images/'))
+            masks_list = sorted(os.listdir(path_Data+'val/masks/'))
+            self.data = []
+            for i in range(len(images_list)):
+                img_path = path_Data+'val/images/' + images_list[i]
+                mask_path = path_Data+'val/masks/' + masks_list[i]
+                self.data.append([img_path, mask_path])
+            self.transformer = config.test_transformer
+        
+    def __getitem__(self, indx):
+        img_path, msk_path = self.data[indx]
+        img = np.array(Image.open(img_path).convert('RGB'))
+        msk = np.expand_dims(np.array(Image.open(msk_path).convert('L')), axis=2) / 255
+        img, msk = self.transformer((img, msk))
+        return img, msk
+
+    def __len__(self):
+        return len(self.data)
+    
+       
+    
 
 def random_rot_flip(image, label):
     k = np.random.randint(0, 4)
@@ -247,4 +282,65 @@ class Synapse_dataset(Dataset):
         sample['case_name'] = self.sample_list[idx].strip('\n')
         return sample
         
-    
+
+import os
+from torchvision import transforms
+
+
+class NPY_datasets3(Dataset):
+    def __init__(self, path_Data, config, train=True, apply_mixup=True):
+        """
+        Dataset for segmentation tasks with optional MixUp augmentation.
+
+        Parameters:
+        - path_Data: Path to the dataset.
+        - config: Configuration containing transformations.
+        - train: If True, uses training set; otherwise, uses validation set.
+        - apply_mixup: Whether to apply MixUp augmentation.
+        """
+        super(NPY_datasets3, self).__init__()
+        self.train = train
+        self.apply_mixup = apply_mixup
+
+        dataset_type = 'train' if train else 'val'
+        images_list = sorted(os.listdir(os.path.join(path_Data, f'{dataset_type}/images/')))
+        masks_list = sorted(os.listdir(os.path.join(path_Data, f'{dataset_type}/masks/')))
+
+        self.transformer = config.train_transformer if train else config.test_transformer
+
+        # Load image-mask pairs
+        self.data = [
+            (
+                os.path.join(path_Data, f'{dataset_type}/images/', img),
+                os.path.join(path_Data, f'{dataset_type}/masks/', msk)
+            )
+            for img, msk in zip(images_list, masks_list)
+        ]
+
+        # Initialize MixUp augmentation if enabled and dataset is for training
+        self.mixup = MixUpSegmentation(self) if self.apply_mixup and train else None
+
+    def __getitem__(self, indx):
+        img_path, msk_path = self.data[indx]
+        
+        # Load image and mask as numpy arrays
+        img = np.array(Image.open(img_path).convert('RGB'))  # Convert image to RGB
+        msk = np.expand_dims(np.array(Image.open(msk_path).convert('L')), axis=2) / 255  # Convert mask to single channel
+
+        # Ensure transformer receives the data as tuples of (image, mask) arrays
+        sample = (img, msk)
+        
+        # Apply transformations to the image and mask
+        img, msk = self.transformer(sample)  # Apply transformations
+
+        # Apply MixUp augmentation only to the image, not the mask
+        if self.mixup:
+            img, _ = self.mixup((img, msk))  # Only mix the image, not the mask
+        
+        # Ensure mask values are within the valid range [0, 1] for binary masks
+        msk = np.clip(msk, 0, 1)  # Clip mask to binary range [0, 1] (no gray regions)
+
+        return img, msk
+
+    def __len__(self):
+        return len(self.data)
