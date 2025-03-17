@@ -67,9 +67,8 @@ test of best model, loss: 0.2386,miou: 0.6143667783966488, f1_or_dsc: 0.76112415
 
   criterion = BceDiceLoss(wb=0.5, wd=0.5)
 
- val epoch: 1, loss: 0.5451, miou: 0.5708965506705284, f1_or_dsc: 0.7268416884954574, accuracy: 0.6090125368352521,                 specificity: 0.18930048195410482, sensitivity: 0.9800735163575913, confusion_matrix: [[165909 710523]
- [ 19754 971590]]
-
+100%|█████████████████████████████████████████████████████████████████████████████████| 114/114 [00:17<00:00,  6.58it/s]
+test of best model, loss: 0.4465,miou: 0.6278379604008518, f1_or_dsc: 0.7713764830084783, accuracy: 0.7368078399122807,                 specificity: 0.6239947879584498, sensitivity: 0.8365441259542601, confusion_matrix: [[546889 329543]
 ```
 conda init
 
