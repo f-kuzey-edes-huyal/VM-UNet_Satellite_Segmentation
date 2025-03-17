@@ -65,6 +65,11 @@ vmunet_omdena_Sunday_16_March_2025_00h_06m_22s
 test of best model, loss: 0.2386,miou: 0.6143667783966488, f1_or_dsc: 0.7611241591663865, accuracy: 0.735626220703125,                 specificity: 0.6701124559577925, sensitivity: 0.7935459336012525, confusion_matrix: [[587308 289124]
  [204667 786677]]
 
+  criterion = BceDiceLoss(wb=0.5, wd=0.5)
+
+ val epoch: 1, loss: 0.5451, miou: 0.5708965506705284, f1_or_dsc: 0.7268416884954574, accuracy: 0.6090125368352521,                 specificity: 0.18930048195410482, sensitivity: 0.9800735163575913, confusion_matrix: [[165909 710523]
+ [ 19754 971590]]
+
 ```
 conda init
 
