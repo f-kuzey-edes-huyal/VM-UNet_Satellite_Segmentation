@@ -27,13 +27,41 @@ class setting_config:
     else:
         raise Exception('datasets in not right!')
 
-    criterion = BceDiceLoss(wb=0.3, wd=0.7)
+    #criterion = BceDiceLoss(wb=0.5, wd=0.5)
 
     #criterion = BceDiceLossw(wb=0.3, wd=0.7)
+
+   # criterion = BceDiceLossw(wb=0.6, wd=0.4)
+   
+    #criterion = BceDiceLoss(wb=0.6, wd=0.4)
     
-    #criterion =  TverskyLoss()
+    #criterion =  FocalDiceLoss()
+    #criterion =   FocalDiceLoss(alpha=0.15, gamma=3.0, smooth=1e-6, dice_weight=0.7)
+    #criterion = FocalDiceLoss(alpha=0.5, gamma=2.0, smooth=1e-6, dice_weight=0.6)
+
+    criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5)
+
+    #criterion = AsymmetricFocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5, beta=1.0)
+
+    criterion = AsymmetricFocalDiceLoss(
+        alpha=0.5,  # Balanced between positive and negative class
+        gamma=2.0,  # Slightly less focus on hard examples
+        smooth=1e-6,  # Keep smooth term to avoid zero division
+        dice_weight=0.4,  # Give slightly less weight to Dice loss
+        beta=1.0  # Keep equal balance between Dice and Focal loss
+    )
+   
+    criterion = BceDiceLoss(wb=1, wd=1)
+
+    criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5)
+
+    #criterion = TverskyLoss(alpha=0.7, beta=0.3)  # More penalty on false positives
+
 
     #criterion = BCEWithLogitsLossCustom()
+
+    #criterion = BceDiceLoss(wb=0.5, wd=0.5)
+    #criterion = FocalTverskyLoss(alpha=0.7, beta=0.3, gamma=2.0)
 
     pretrained_path = './pre_trained/'
     num_classes = 1
@@ -49,12 +77,12 @@ class setting_config:
     amp = False
     gpu_id = '0'
     batch_size = 32
-    epochs = 200
+    epochs = 50
 
     work_dir = 'results/' + network + '_' + datasets + '_' + datetime.now().strftime('%A_%d_%B_%Y_%Hh_%Mm_%Ss') + '/'
 
     print_interval = 20
-    val_interval = 10
+    val_interval = 1
     save_interval = 10
     threshold = 0.5
 
@@ -97,6 +125,19 @@ class setting_config:
         RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=1),
         myToTensor(),  # Convert to tensor first
        
+        #myMedianBlur(blur_limit=3, p=0.1)
+        
+    
+    ])
+    
+
+    train_transformer5 = transforms.Compose([
+        #myToTensor(),  # Convert to tensor first
+       
+        myNormalize(datasets, train=True),  # Normalize last,
+        RandomBrightnessContrast(brightness_limit=1, contrast_limit=1, p=1),
+        myToTensor(),  # Convert to tensor first
+        
         #myMedianBlur(blur_limit=3, p=0.1)
         
     

@@ -1012,3 +1012,125 @@ from torch.utils.data import Dataset
 import torchvision.transforms as T
 from PIL import Image
 
+
+class RandomBrightnessContrast:
+    def __init__(self, brightness_limit=0.3, contrast_limit=0.3, p=0.5):
+        self.brightness_limit = brightness_limit
+        self.contrast_limit = contrast_limit
+        self.p = p
+
+    def __call__(self, data):
+        image, mask = data
+        
+        if random.random() < self.p:
+            # Ensure the image is in float32 format for proper calculations
+            image = image.astype(np.float32)
+            
+            # Adjust brightness and contrast
+            brightness_factor = 1.0 + np.random.uniform(-self.brightness_limit, self.brightness_limit)
+            contrast_factor = 1.0 + np.random.uniform(-self.contrast_limit, self.contrast_limit)
+            
+            # Calculate the mean of the image for contrast adjustment
+            mean = np.mean(image, axis=(0, 1), keepdims=True)
+            image = contrast_factor * (image - mean) + mean + brightness_factor * 255
+            
+            # Clip the image values to valid range [0, 255]
+            image = np.clip(image, 0, 255).astype(np.uint8)
+        
+        return image, mask  # Do not apply any change to the mask
+
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class FocalTverskyLoss(nn.Module):
+    def __init__(self, alpha=0.7, beta=0.3, gamma=2.0, smooth=1e-6):
+        """
+        Focal Tversky Loss for imbalanced segmentation tasks.
+
+        Args:
+            alpha (float): Weight for false negatives (higher for class imbalance).
+            beta (float): Weight for false positives.
+            gamma (float): Focusing parameter (higher values focus on hard cases).
+            smooth (float): Small value to avoid division by zero.
+        """
+        super(FocalTverskyLoss, self).__init__()
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
+        self.smooth = smooth
+
+    def forward(self, y_pred, y_true):
+        """
+        Compute Focal Tversky Loss.
+
+        Args:
+            y_pred (tensor): Predicted segmentation map (logits before sigmoid).
+            y_true (tensor): Ground truth binary mask.
+
+        Returns:
+            torch.Tensor: Computed loss value.
+        """
+        # Convert logits to probabilities
+        y_pred = torch.sigmoid(y_pred)
+        
+        # Flatten tensors for computation
+        y_pred = y_pred.view(-1)
+        y_true = y_true.view(-1)
+        
+        # Compute True Positives, False Positives, and False Negatives
+        TP = torch.sum(y_pred * y_true)
+        FP = torch.sum(y_pred * (1 - y_true))
+        FN = torch.sum((1 - y_pred) * y_true)
+
+        # Compute Tversky Index
+        tversky_index = (TP + self.smooth) / (TP + self.alpha * FN + self.beta * FP + self.smooth)
+        
+        # Compute Focal Tversky Loss
+        loss = (1 - tversky_index) ** self.gamma
+        return loss
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+class AsymmetricFocalDiceLoss(nn.Module):
+    def __init__(self, alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5, beta=1.0):
+        super(AsymmetricFocalDiceLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+        self.smooth = smooth
+        self.dice_weight = dice_weight
+        self.beta = beta  # Beta controls the asymmetry in focal loss.
+
+    def asymmetric_focal_loss(self, inputs, targets):
+        # Compute the asymmetric focal loss
+        inputs = torch.sigmoid(inputs)  # Apply sigmoid to logits
+        p_t = inputs * targets + (1 - inputs) * (1 - targets)
+        
+        # Asymmetric loss focusing more on false negatives
+        focal_loss = self.alpha * (1 - p_t) ** self.gamma * (
+            self.beta * targets * (1 - inputs) + (1 - targets) * inputs
+        )
+        return focal_loss.mean()
+
+    def dice_loss(self, inputs, targets):
+        # Compute the dice loss
+        inputs = torch.sigmoid(inputs)  # Apply sigmoid to logits
+        intersection = torch.sum(inputs * targets, dim=(2, 3))
+        union = torch.sum(inputs, dim=(2, 3)) + torch.sum(targets, dim=(2, 3))
+        dice = (2. * intersection + self.smooth) / (union + self.smooth)
+        return 1 - dice.mean()
+
+    def forward(self, inputs, targets):
+        # Combine the asymmetric focal loss and dice loss with weighted sum
+        focal = self.asymmetric_focal_loss(inputs, targets)
+        dice = self.dice_loss(inputs, targets)
+        return self.dice_weight * dice + (1 - self.dice_weight) * focal
+
+# Example usage
+# model_output = your_model(inputs)  # Logits from your model
+# loss_fn = AsymmetricFocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5, beta=1.0)
+# loss = loss_fn(model_output, target_mask)  # Your target mask tensor
+
