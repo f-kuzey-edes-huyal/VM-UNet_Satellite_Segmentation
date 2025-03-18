@@ -80,6 +80,23 @@ last 50 epoch __aug__ (```criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth
  100%|█████████████████████████████████████████████████████████████████████████████████| 114/114 [00:16<00:00,  6.95it/s]
 test of best model, loss: 0.1842,miou: 0.6948788965900563, f1_or_dsc: 0.8199746872630134, accuracy: 0.7742759303042763,                 specificity: 0.7793538724517858, sensitivity: 0.7717306472756968, confusion_matrix: [[486023 137600]
  [284002 960151]]
+
+## Model Performance Comparison (With & Without Augmentations)
+
+| Metric         | No Augmentation | With Augmentation | Change |
+|---------------|---------------|----------------|--------|
+| **Loss**       | 0.1854        | 0.1842         | 🔽 (Better) |
+| **mIoU**       | 0.6917        | 0.6949         | 🔼 (Better) |
+| **F1/DSC**     | 0.8178        | 0.8199         | 🔼 (Better) |
+| **Accuracy**   | 0.7683        | 0.7743         | 🔼 (Better) |
+| **Specificity**| 0.7439        | 0.7794         | 🔼 (Much Better) |
+| **Sensitivity**| 0.7805        | 0.7717         | 🔽 (Slight Drop) |
+
+### 🔍 **Observations**
+- Augmentations **improved performance** across most metrics, especially specificity (+0.035).
+- Sensitivity dropped slightly, meaning **more false negatives**.
+- The model appears **more conservative**, preferring **fewer false positives**.
+ 
 ```
 conda init
 
