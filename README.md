@@ -70,7 +70,9 @@ test of best model, loss: 0.2386,miou: 0.6143667783966488, f1_or_dsc: 0.76112415
 100%|█████████████████████████████████████████████████████████████████████████████████| 114/114 [00:17<00:00,  6.58it/s]
 test of best model, loss: 0.4465,miou: 0.6278379604008518, f1_or_dsc: 0.7713764830084783, accuracy: 0.7368078399122807,                 specificity: 0.6239947879584498, sensitivity: 0.8365441259542601, confusion_matrix: [[546889 329543]
 
-last 50 epoch no  aug
+
+
+last 50 epoch no  aug (```criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5)```)
 test of best model, loss: 0.1854,miou: 0.6917083442261295, f1_or_dsc: 0.8177631168953663, accuracy: 0.768285918654057,                 specificity: 0.7439478659382351, sensitivity: 0.7804851975601071, confusion_matrix: [[463943 159680]
  [273110 971043]]
 ```
