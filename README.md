@@ -76,6 +76,7 @@ last 50 epoch no  aug (```criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth
 test of best model, loss: 0.1854,miou: 0.6917083442261295, f1_or_dsc: 0.8177631168953663, accuracy: 0.768285918654057,                 specificity: 0.7439478659382351, sensitivity: 0.7804851975601071, confusion_matrix: [[463943 159680]
  [273110 971043]]
 
+last 50 epoch __aug__ (```criterion = FocalDiceLoss(alpha=0.6, gamma=3.0, smooth=1e-6, dice_weight=0.5)```)
  100%|█████████████████████████████████████████████████████████████████████████████████| 114/114 [00:16<00:00,  6.95it/s]
 test of best model, loss: 0.1842,miou: 0.6948788965900563, f1_or_dsc: 0.8199746872630134, accuracy: 0.7742759303042763,                 specificity: 0.7793538724517858, sensitivity: 0.7717306472756968, confusion_matrix: [[486023 137600]
  [284002 960151]]
