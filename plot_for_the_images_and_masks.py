@@ -11,7 +11,7 @@ def select_and_plot_images(image_folder, mask_folder, output_path):
     selected_images = random.sample(image_files, 2)
     
     # Create a figure
-    fig, axes = plt.subplots(2, 2, figsize=(10, 10))
+    fig, axes = plt.subplots(2, 2, figsize=(6, 6))
     
     for i, image_file in enumerate(selected_images):
         # Construct mask file name
