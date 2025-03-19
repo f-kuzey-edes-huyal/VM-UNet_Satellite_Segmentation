@@ -22,10 +22,7 @@ A repository for segmenting satellite images using [VM-UNet](https://github.com/
 - Sensitivity dropped slightly, meaning **more false negatives**.
 - The model appears **more conservative**, preferring **fewer false positives**.
 
-  ```conda env export > environment.yaml ```
-  
-  ```conda activate vmunet  # Replace 'myenv' with the name from the YAML file```
-
+ 
 
 
 # Setting Up the VM-UNet Environment
