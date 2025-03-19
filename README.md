@@ -37,8 +37,7 @@ test of best model, loss: 0.1842,miou: 0.6948788965900563, f1_or_dsc: 0.81997468
 - The model appears **more conservative**, preferring **fewer false positives**.
 
   ```conda env export > environment.yaml
-
-  conda activate myenv  # Replace 'myenv' with the name from the YAML file
+     conda activate myenv  # Replace 'myenv' with the name from the YAML file
   ```
 
  
