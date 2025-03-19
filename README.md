@@ -43,7 +43,7 @@ exec $SHELL
 
 conda activate vmunet
 
-cd /mnt/d//VM-Unet-main
-
 cd /mnt/c/Users/Kuzey/VM-Unet
+
+export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 ```
