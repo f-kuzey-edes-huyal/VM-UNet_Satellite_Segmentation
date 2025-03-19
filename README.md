@@ -67,7 +67,7 @@ cd /mnt/c/Users/Kuzey/VM-Unet
 export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
 ```
 
-__Setting Up the VM-UNet Environment__
+# Setting Up the VM-UNet Environment
 
 Follow these steps to set up the vmunet environment.
 
@@ -95,7 +95,7 @@ Follow these steps to set up the vmunet environment.
 
 🔹 This setup is based on the [VM-UNet](https://github.com/JCruan519/VM-UNet) repository, initially attempted via .yaml but later manually refined. Let me know if you run into issues! 🚀
 
-🏗️ Training the VM-UNet Architecture
+# 🏗️ Training the VM-UNet Architecture
 
 ```
 # Clone the repository  
