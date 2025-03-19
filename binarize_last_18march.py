@@ -4,6 +4,10 @@ import rasterio
 from sklearn.model_selection import train_test_split
 from natsort import natsorted
 
+"""
+This code is prepared by adjusting the code provided by Cheng Zhen!
+"""
+
 def normalize_by_layer(image_array):
     image_array = image_array.astype(np.float64)
     for i in range(image_array.shape[2]):
