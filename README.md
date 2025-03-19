@@ -95,4 +95,22 @@ Follow these steps to set up the vmunet environment.
 
 🔹 This setup is based on the [VM-UNet](https://github.com/JCruan519/VM-UNet) repository, initially attempted via .yaml but later manually refined. Let me know if you run into issues! 🚀
 
+🏗️ Training the VM-UNet Architecture
 
+```
+# Clone the repository  
+git clone https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation.git  
+
+# Open WSL  
+conda init  
+exec $SHELL  
+
+# Navigate to the project directory  
+cd /mnt/c/VM-UNet_Satellite_Segmentation  
+
+# Set library path  
+export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH  
+
+# Train the model with augmented data  
+python train_kuzey_new_data_dropout_last_with_aug.py
+```
