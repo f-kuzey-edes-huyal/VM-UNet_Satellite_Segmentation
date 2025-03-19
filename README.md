@@ -65,7 +65,7 @@ exec $SHELL
 conda activate vmunet 
 
 # Navigate to the project directory  
-cd /mnt/c/VM-UNet_Satellite_Segmentation  
+cd /mnt/c/VM-UNet_Satellite_Segmentation_Satellite_Segmentation  
 
 # Set library path  
 export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH  
