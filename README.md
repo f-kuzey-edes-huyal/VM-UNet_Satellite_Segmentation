@@ -40,32 +40,7 @@ test of best model, loss: 0.1842,miou: 0.6948788965900563, f1_or_dsc: 0.81997468
   
   ```conda activate vmunet  # Replace 'myenv' with the name from the YAML file```
 
-git clone https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation.git
 
-conda init
-
-exec $SHELL
-
-cd /mnt/d/VM-UNet_Satellite_Segmentation
-
-conda env create -f environment2.yaml
-
-pip install --upgrade pip
-
-
-
- 
-```
-conda init
-
-exec $SHELL
-
-conda activate vmunet
-
-cd /mnt/c/Users/Kuzey/VM-Unet
-
-export LD_LIBRARY_PATH=/usr/lib/wsl/lib:$LD_LIBRARY_PATH
-```
 
 # Setting Up the VM-UNet Environment
 
