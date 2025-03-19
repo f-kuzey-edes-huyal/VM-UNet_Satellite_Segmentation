@@ -72,16 +72,27 @@ __Setting Up the VM-UNet Environment__
 Follow these steps to set up the vmunet environment.
 
 1️⃣ Create & Activate Environment
+
 ```conda create -n vmunet python=3.8 -y && conda activate vmunet```
+
 2️⃣ Install CUDA & PyTorch
+
 ```conda install -c nvidia/label/cuda-11.8.0 cuda-toolkit```  
-pip install torch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu117
+
+```pip install torch==1.13.0 torchvision==0.14.0 torchaudio==0.13.0 --extra-index-url https://download.pytorch.org/whl/cu117```
+
 3️⃣ Install Dependencies
+
 ```pip install packaging timm==0.4.12 pytest chardet yacs termcolor submitit tensorboardX```  
+
 ```pip install triton==2.0.0 causal_conv1d==1.0.0 mamba_ssm==1.0.1```  
-```pip install scikit-learn matplotlib thop h5py SimpleITK scikit-image medpy yacs``
+
+```pip install scikit-learn matplotlib thop h5py SimpleITK scikit-image medpy yacs```
+
 4️⃣ (Optional) Update Dependencies
+
 ```conda env update --file environment.yaml --update-deps```
+
 🔹 This setup is based on the VM-UNet repository, initially attempted via .yaml but later manually refined. Let me know if you run into issues! 🚀
 
 
