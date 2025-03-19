@@ -61,7 +61,8 @@ git clone https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation.g
 
 # Open WSL  
 conda init  
-exec $SHELL  
+exec $SHELL
+conda activate vmunet 
 
 # Navigate to the project directory  
 cd /mnt/c/VM-UNet_Satellite_Segmentation  
