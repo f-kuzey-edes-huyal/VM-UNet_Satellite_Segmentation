@@ -55,7 +55,7 @@ Follow these steps to set up the vmunet environment.
 
 # 🏗️ Training the VM-UNet Architecture
 
-Before starting training, download the pre-trained weights from the link and insert them into the pre_trained_weights directory.
+Before starting training, download the pre-trained weights from the [link](https://zenodo.org/records/13743856) and insert them into the pre_trained_weights directory.
 
 ```
 # Clone the repository  
