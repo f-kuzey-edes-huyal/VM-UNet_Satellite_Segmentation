@@ -55,6 +55,8 @@ Follow these steps to set up the vmunet environment.
 
 # 🏗️ Training the VM-UNet Architecture
 
+Before starting training, download the pre-trained weights from the link and insert them into the pre_trained_weights directory.
+
 ```
 # Clone the repository  
 git clone https://github.com/f-kuzey-edes-huyal/VM-UNet_Satellite_Segmentation.git  
