@@ -25,7 +25,7 @@ A repository for segmenting satellite images using [VM-UNet](https://github.com/
  
 
 
-# Setting Up the VM-UNet Environment
+# 🛠️ Setting Up the VM-UNet Environment
 
 Follow these steps to set up the vmunet environment.
 
